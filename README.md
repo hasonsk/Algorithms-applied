@@ -13,7 +13,7 @@ The algorithms in this repository are implemented in the following programming l
 - C/C++
 ## Getting started
 To get started with this repository, simply clone this repository to your local machine:<br>
-git clone https://github.com/your-username/algorithms-applied.git
+git clone https://github.com/hasonsk/Algorithms-applied
 
 ## Contributing
 Contributions to this repository are welcome. If you find a bug or want to add an algorithm implementation, please create a pull request with your changes.
