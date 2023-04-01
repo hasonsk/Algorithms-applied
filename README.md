@@ -1,6 +1,6 @@
 # Algorithms-applied
 ## Overview
-This repository contains various algorithms applied in different programming languages, including:
+This repository contains various algorithms applied, including:
 - Data structures and basic algorithm libraries
 - Recursion and divide-and-conquer
 - Greedy algorithm
@@ -12,7 +12,7 @@ The algorithms in this repository are implemented in the following programming l
 - Python
 - C/C++
 ## Getting started
-To get started with this repository, simply clone this repository to your local machine:<br><br>
+To get started with this repository, simply clone this repository to your local machine:<br>
 git clone https://github.com/your-username/algorithms-applied.git
 
 ## Contributing
