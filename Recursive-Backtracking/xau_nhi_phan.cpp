@@ -1,3 +1,4 @@
+//Liet ke xau nhi phan co chieu dai N
 #include <iostream>
 using namespace std;
 #define MAX 10
