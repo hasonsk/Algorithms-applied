@@ -6,10 +6,12 @@ using namespace std;
 int a[MAX];
 int n, m;
 int sum;
-
 void Ghinhan() {
+    static int count = 1;
+    cout<<"#"<<count<<": ";
     for(int i = 1; i<= m;i++) cout<<a[i]<< " ";
     cout<<endl;
+    count += 1;
 }
 
 void Try(int k) {
