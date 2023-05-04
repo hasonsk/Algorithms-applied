@@ -11,6 +11,7 @@ int xj[MAX*MAX];         // jth column
 
 int N;                   // matrix size
 int I, J;                // starting position
+int found;
 
 bool check(int i, int j){
     if(i<1||i>N) return false;
@@ -35,7 +36,10 @@ void Try(int k) {
             xj[k] = xj[k-1] + dj[v];
             marked[xi[k]][xj[k]] = true;
 
-            if(k == N*N) solution();
+            if(k == N*N){
+                found = true;
+                solution();
+            }
             else Try(k+1);
             marked[xi[k]][xj[k]] = false;
         }
@@ -50,6 +54,9 @@ int main() {
     cin>> N >> I >> J;
     xi[1] = I;
     xj[1] = J;
+    found = false;
     marked[I][J] = true;
     Try(2);
+    
+    if(found == false) cout<< "Not found."<<endl;
 }
