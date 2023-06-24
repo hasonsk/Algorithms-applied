@@ -11,8 +11,8 @@ void Ghinhan() {
 }
 
 void Try(int k) {
-    for(int i = 1; i<=n; i++) {
-        if(!bVisited[i] && i > A[k-1]) {
+    for(int i = A[k-1] + 1; i<= n-m+k; i++) {
+        if(!bVisited[i]) {
             A[k] = i;
             bVisited[i] = true;
             if(k == m) Ghinhan();
