@@ -4,6 +4,8 @@ using namespace std;
 int  n;
 int  iRes[MAX];
 bool bCol[MAX];
+bool bD0[MAX];  //cheo chinh
+bool bD1[MAX];  // cheo phu
 int  dem = 0;
 
 void Ghinhan() {
@@ -28,12 +30,16 @@ int check(int v, int k) {
 
 void Try(int k) {
     for(int i = 1; i <= n; i++) {
-        if(check(i, k)){
+        if(!bCol[i] && !bD0[i+k] && !bD1[i-k]){
             iRes[k] = i;
             bCol[i] = true;
+            bD0[i+k] = true;
+            bD1[i-k] = true;
             if(k == n)  Ghinhan();
             else Try(k+1);
             bCol[i] = false;
+            bD0[i+k] = false;
+            bD1[i-k] = false;
             iRes[k] = 0;
         }
     }
