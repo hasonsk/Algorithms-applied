@@ -9,6 +9,7 @@ int bVisited[MAX];
 int load = 0;
 int f = 0;
 int res = 1e9;
+int cmin = 1e9;
 
 int check(int i) {
     if(bVisited[i]) return 0;
@@ -31,21 +32,24 @@ void Try(int k) {
             bVisited[i] = 1;
             x[k] = i;
             f += c[x[k-1]][x[k]];
-            if(i <= n) load+=1; else load -=1;
+            if(i <= n) load +=1; else load -=1;
             if(k == 2*n) solution();
-            else Try(k+1);
-            if(i <= n) load-=1; else load +=1;
+            else {
+                if(f+cmin*(2*n-k) < res) Try(k+1);
+            }
+            if(i <= n) load -=1; else load +=1;
             bVisited[i] = 0;
             f -= c[x[k-1]][x[k]];
         }
     }
 }
 
-
 int main() {
     cin >> n;
-    for(int i = 0 ; i<=2*n; i++)  for(int j = 0; j <=2*n; j++) 
+    for(int i = 0 ; i<=2*n; i++)  for(int j = 0; j <=2*n; j++) {
         cin >> c[i][j];
+        if(c[i][j] < cmin) cmin = c[i][j];
+    }
     x[0] = 0;
     Try(1);
     cout << res;
