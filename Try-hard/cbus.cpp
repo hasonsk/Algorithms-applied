@@ -1,76 +1,80 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define MAX 30
-int n, m;
-int load=0;
-int C[MAX+1][MAX+1];
-int A[2*MAX];     // hanh trinh di 
-int bVisited[2*MAX];  // da tham
-int f = 0;
-int f_best = 999999;
-int x_best[2*MAX];
-int dem =0;
+int A[2*MAX+1][2*MAX+1]; 
+int bVisited[2*MAX+1];
+int x[2*MAX+1];
+int x_best[2*MAX+1];
+int n, m;   // n la so tuyen, m so hanh khach toi da
+int load=0; //so hanh khach hien tai
+int f=0;    // chi phi hien tai
+int f_best = 1e9;  
+int cmin=1e9;
 
-void Ghinhan() {
-    dem ++;
-    cout << "#" << dem<< ": ";
-    for(int i = 1; i <= 2*n; i++) 
-        cout << A[i] <<" ";
-    cout << endl;
-}
 
 void solution() {
-    if(f < f_best) {
-        f_best = f;
-        for(int i = 1; i<=2*n; i++){
-            x_best[i] = A[i];
-            cout << x_best[i] <<" ";
-        }
-        cout << "\n";
-        Ghinhan();
+    if(f + A[x[n<<1]][0] < f_best) {
+        f_best = f + A[x[n<<1]][0];
+        for(int i = 1; i<=n<<1; i++) x_best[i] = x[i];
     }
 }
 
-bool check(int i){
+int check(int i) {
     if(bVisited[i]) return 0;
-    if(i<=n){
+    if(i>n){
+        if(!bVisited[i-n]) return 0;
+    } else{
         if(load==m) return 0;
     }
-    else if(!bVisited[i-n] ) return 0;
     return 1;
 }
 
 void Try(int k) {
-    if(k > n*2){
-        f += C[A[k-1]][0] ;
-        return solution();;
-    }
-    for(int i = 1; i <= n*2; i++) {
+    for(int i= 1; i<=2*n; i++) {
         if(check(i)) {
-            bVisited[i] = true;
-            A[k] = i;
-            f += C[A[k-1]][i];
-            if(i <= n) load++;
-            else load--;
-            Try(k+1);
-            bVisited[i] = false;
-            f -= C[A[k-1]][i];
-            if(i <= n) load--;   else load++;
+            x[k] = i;
+            f+=A[x[k-1]][x[k]];
+            bVisited[i] = 1;
+            if(i>n) load -= 1; else load += 1;
+            if(k==2*n) {
+                solution();
+            }
+            else {
+                if(f+(2*n-k)*cmin < f_best) Try(k+1);
+            }
+            f -= A[x[k-1]][x[k]];
+            bVisited[i] = 0;
+            if(i>n) load += 1; else load -= 1;
         }
     }
 }
 
-int main() {
+
+void input() {
     cin >> n >> m;
-    for(int i = 0; i <=n*2; i++)  for(int j = 0; j <=n*2; j++) 
-        cin >> C[i][j];
-    for(int i = 0; i <= n*2; i++) bVisited[i] = 0;
-    A[0] = 0;
+    for(int i=0; i<=2*n; i++)
+    for(int j=0; j<=2*n; j++) {
+        cin >> A[i][j];
+        if(A[i][j] < cmin) cmin = A[i][j];
+    }
+    for(int i = 0; i<=2*n; i++) bVisited[i] = 0;
+    x[0] = 0;
+}
+
+void print() {
+    cout <<"Res: " << f_best<<endl;
+    for(int i= 1; i<=n<<1; i++) cout << x_best[i]<< " ";
+    cout <<"\n";
+}
+
+int main() {
+    input();
     Try(1);
-    cout << f_best;
+    print();
     return 0;
 }
 
+// input:
 // 3  2
 // 0  8  5  1  10  5  9
 // 9  0  5  6  6  2  8
