@@ -3,7 +3,7 @@ using namespace std;
 #define MAX 20
 int n;
 int x[MAX];        // luu hanh trinh da qua
-int c[MAX][MAX];   // khoang cach giua 2 diem i va j
+int c[MAX][MAX];   // khoang cach giua 2 diem i va j 
 int bVisited[MAX]; // danh dau da tham
 int f= 0;          // loi giai bo phan
 int res = 1e9;     // loi giai bai toan
