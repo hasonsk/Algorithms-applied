@@ -3,7 +3,7 @@
 using namespace std;
 #define MAX 1000
 int n, m;
-int A[MAX];
+int A[MAX]; 
 
 void Ghinhan() {
     for(int i = 1; i<=n; i++) cout << A[i] << " ";
