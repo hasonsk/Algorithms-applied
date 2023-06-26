@@ -10,7 +10,7 @@ int f = 0;
 int main() {
     cin >> n;
     for(int i = 1; i <=n; i++){
-        cin >> c[i];
+        cin >> x[i];
         c[x[i]] = i;
     }
     for(int i= 1; i<=n; i++)
@@ -26,6 +26,6 @@ int main() {
     if(flag == 1) cout << "-1";
     else {
         for(int i= 1; i<=n; i++) f+=d[x[i-1]][x[i]];
-        cout << f+d[c[n]][1];
+        cout << f+d[x[n]][1];
     }
 } 
