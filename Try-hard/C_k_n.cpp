@@ -13,7 +13,7 @@ int solve(int k, int n) {
     }
     for(int i = 2; i<=k; i++) {
         for(int j= i; j<=n; j++){
-            C[i][j] = ((C[i-1][j-1])%MOD + (C[i][j-1])%MOD);
+            C[i][j] = ((C[i-1][j-1])%MOD + (C[i][j-1])%MOD)%MOD;
         }
     }
     return C[k][n];
