@@ -8,8 +8,15 @@ int Res[MAX][MAX];
 
 int LCS(int m, int n) {
     if(n*m==0) return 0;
-    if(A[m] == B[n]) return LCS(m-1, n-1)+1;
-    else return max(LCS(m-1, n), LCS(m,n-1));
+    for(int i= 1; i<=m; i++) Res[0][i] = 0;
+    for(int i = 1; i<=n; i++) Res[i][0] = 0;
+    for(int i = 1; i<=m; i++){
+        for(int j = 1; j<=n; j++) {
+            if(A[i] == B[j]) Res[i][j] = Res[i-1][j-1] +1;
+            else Res[i][j] = max(Res[i-1][j], Res[i][j-1]);
+        }
+    }
+    return Res[m][n];
 }
 
 int main() {
