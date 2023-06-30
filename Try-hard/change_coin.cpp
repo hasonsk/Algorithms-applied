@@ -9,7 +9,8 @@ void solve(int n){
     int i = 0; 
     while(n != 0) {
         if(coin[i] > n) { i++;}
-        else {n-=coin[i]; res++;}
+        else {
+            res+=n/coin[i]; n%=coin[i++]; }
     }
     cout << res;
 }
