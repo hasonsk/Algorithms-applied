@@ -36,7 +36,19 @@ bool bfs(int u) {
 }
 
 
+bool dfs(int u, int par) {
+    color[u] = 1-color[par];
+    for(int i: adj[u]) {
+        if(color[i] == -1) {
+            if(!dfs(i, u)) return false;
+        }
+        else if(color[i] == color[u]) return false;
+    }
+    return true;
+}
+
 int main() {
     input();
-    cout << bfs(1);
+    color[0] = 0;
+    cout << dfs(1,0);
 }
