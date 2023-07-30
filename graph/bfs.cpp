@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int const MAX = 100;
+int const MAX = 200001;
 int n, m;
 vector<int> adj[MAX];
 int parent[MAX];
@@ -59,4 +59,5 @@ int main() {
         cout << dem<< endl;
         for(int i: path) cout << i << " ";
     }
+    else cout << "IMPOSSIBLE";
 }
