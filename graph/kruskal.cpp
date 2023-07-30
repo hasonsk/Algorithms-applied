@@ -1,87 +1,66 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int const MAX = 1e5+1;
-struct edge{
-    int u, v;
-    int w;
-};
-vector<edge> canh;
+using ll = long long;
+const int MAX = 1e5+1;
 int n, m;
-int parent[MAX], sz[MAX];
-
-void make_set() {
-    for(int i= 1; i<=n; i++) {
-        parent[i] = i;
-        sz[i] = 1;
-    }
-}
-
-int find(int v) {
-    if(v == parent[v]) return v;
-    return parent[v] = find(parent[v]);
-}
-
-bool Union(int a, int b) {
-    a = find(a);
-    b = find(b);
-    if(a==b) {
-        return false;
-    }
-    else{
-        if(sz[a] < sz[b]) swap(a, b);
-        parent[b] = a;
-        sz[a] += sz[b];
-        return true;
-    }
-}
+int s, t;
+vector<pair<int, int>> adj[MAX];
+const int oo = 1e9;
 
 
-void input() {  
+void input() {  // do thi co huong
     cin >> n >> m;
-    make_set();
-    for(int i=1 ; i<=m; i++){
-        int u, v, w;
-        cin >> u >> v >> w;
-        edge e;
-        e.u = u; e.v= v; e.w = w;
-        canh.push_back(e);
+    for(int i = 0; i< m; i++) {
+        int x, y, w; cin >> x >> y >>w;
+        adj[x].push_back({y, w});
     }
-}
-bool cmp(edge a, edge b) {
-    return a.w < b.w;
+    cin >> s >> t;
 }
 
-void Kruskal() {
-    // tao cay
-    vector<edge> mst;
-    int d = 0;
-    // sort theo chieu dai tang dan
-    sort(canh.begin(), canh.end(), cmp);
-    // lap
-    for(int i=0; i<=m; i++) {
-        if(mst.size() == n-1) break;
-        edge e = canh[i];
-        // check xem co thoa man
-        if(Union(e.u, e.v)) {
-            mst.push_back(e);
-            d += e.w;
+int pre[MAX];
+void dijkstra(int s, int t) {
+    vector<ll> d(n+1, oo);
+    d[s] = 0;
+    pre[s] = s;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> Q;
+    // {Khoang cach, dinh}
+    Q.push({0, s});
+    while(!Q.empty()) {
+        // chon ra dinh co khoang cach tu s nho nhat
+        pair<int, int> top = Q.top(); Q.pop();
+        int u = top.second;
+        int kc = top.first;
+        if(kc > d[u]) continue;
+        // Relaxation : cap nhap khoang cach tu s dem moi dinh ke voi u
+        for(auto it: adj[u]) {
+            int v = it.first;
+            int w = it.second;
+            if(d[v] > d[u] + w) {
+                d[v] = d[u]+w;
+                Q.push({d[v], v});
+                pre[v] = u;
+            }
         }
+        // for(int i= 1; i<=n; i++) {
+        //     cout << d[i] << " ";
+        // }
     }
-    if(mst.size() != n-1) cout <<" do thi khong lien thong.\n";
-    cout << d<< endl;
+    cout << d[t] << endl;
+    vector<int> path;
+    while(t!=s) {
+        path.push_back(t);
+        t = pre[t];
+    }
+    path.push_back(s);
+    reverse(begin(path), end(path));
+    for(int x: path) {
+        cout << x << " ";
+    }
 }
+
 
 int main() {
     input();
-    Kruskal();
-    return 0;
+    dijkstra(s, t);
 }
-
-
-// Khoi tao: cay khung rong, trongj so bang 0
-// Sap xep: canh theo chieu dai tang dan
-// Lap: Chung nao so canh < n-1
-//      E != 0
-//      tim ra canh nho nhat --> Khong tao chu trinh, them canh e, d+= de
-//      DISJOINT & SET
