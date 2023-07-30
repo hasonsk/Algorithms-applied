@@ -1,54 +1,57 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <queue>
 using namespace std;
 
-using ll = long long;
-const int MAX = 1e5+1;
-int n, m;
-int s, t;
-vector<pair<int, int>> adj[MAX];
-const int oo = 1e9;
+const int INF = 1e9;
 
+vector<int> dijkstra(int start, int n, vector<vector<pair<int, int>>>& adj) {
+    vector<int> dist(n + 1, INF);
+    dist[start] = 0;
 
-void input() {  // do thi co huong
-    cin >> n >> m;
-    for(int i = 0; i< m; i++) {
-        int x, y, w; cin >> x >> y >>w;
-        adj[x].push_back({y, w});
-    }
-    cin >> s >> t;
-}
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    pq.push({0, start});
 
+    while (!pq.empty()) {
+        int u = pq.top().second;
+        int d = pq.top().first;
+        pq.pop();
 
-void dijkstra(int s, int t) {
-    vector<ll> d(n+1, oo);
-    d[s] = 0;
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> Q;
-    // {Khoang cach, dinh}
-    Q.push({0, s});
-    while(!Q.empty()) {
-        // chon ra dinh co khoang cach tu s nho nhat
-        pair<int, int> top = Q.top(); Q.pop();
-        int u = top.second;
-        int kc = top.first;
-        if(kc > d[u]) continue;
-        // Relaxation : cap nhap khoang cach tu s dem moi dinh ke voi u
-        for(auto it: adj[u]) {
-            int v = it.first;
-            int w = it.second;
-            if(d[v] > d[u] + w) {
-                d[v] = d[u]+w;
-                Q.push({d[v], v});
+        if (d > dist[u]) {
+            continue;
+        }
+
+        for (const auto& edge : adj[u]) {
+            int v = edge.first;
+            int w = edge.second;
+
+            if (dist[u] + w < dist[v]) {
+                dist[v] = dist[u] + w;
+                pq.push({dist[v], v});
             }
         }
-        // for(int i= 1; i<=n; i++) {
-        //     cout << d[i] << " ";
-        // }
     }
-    cout << "\n"<< d[t];
+
+    return dist;
 }
 
-
 int main() {
-    input();
-    dijkstra(s, t);
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<pair<int, int>>> adj(n + 1);
+
+    for (int i = 0; i < m; ++i) {
+        int a, b, c;
+        cin >> a >> b >> c;
+        adj[a].emplace_back(b, c);
+    }
+
+    vector<int> shortestRoutes = dijkstra(1, n, adj);
+
+    for (int i = 1; i <= n; ++i) {
+        cout << shortestRoutes[i] << " ";
+    }
+
+    return 0;
 }
